@@ -78,9 +78,25 @@ If no templates exist, output: `还没有模板。使用 /pt add 创建第一个
 
 ---
 
-### `use <name> [--param=value ...]` — Render and execute a template
+### `use [name] [--param=value ...]` — Render and execute a template
 
-1. Read `~/.claude/prompt-templates/<name>.md`. If not found, output error and suggest `/pt list`.
+**Without name argument:** List all available templates with parameterized usage examples:
+1. Glob `~/.claude/prompt-templates/*.md`
+2. Read frontmatter (name, params) from each file
+3. Display each template with its usage syntax:
+```
+可用模板：
+
+  repo-reset     — 重置 repo 到干净状态
+                   用法: /pt use repo-reset --project=<工程路径> --branch=<分支名>
+
+  task-env       — 创建任务分支环境
+                   用法: /pt use task-env --project=<工程根目录> --repo=<仓库列表> --task=<分支名>
+```
+4. If no templates exist, output: `还没有模板。使用 /pt add 创建第一个。`
+
+**With name argument:**
+1. Read `~/.claude/prompt-templates/<name>.md`. If not found, output error and suggest `/pt use` (without name) to see available templates.
 2. Parse frontmatter for param definitions.
 3. Collect param values:
    - From `--param=value` arguments in the command
