@@ -1,0 +1,6 @@
+{
+  "name": "prompt-template",
+  "version": "1.0.0",
+  "description": "Prompt template manager — store, list, and invoke reusable parameterized prompt templates",
+  "type": "module"
+}
