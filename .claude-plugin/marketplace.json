@@ -1,0 +1,22 @@
+{
+  "name": "prompt-template-marketplace",
+  "owner": {
+    "name": "Kaben123"
+  },
+  "metadata": {
+    "description": "Prompt template manager plugin marketplace",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "prompt-template",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Kaben123/prompt-template.git"
+      },
+      "description": "Prompt template manager — store, list, and invoke reusable parameterized prompt templates with {{param}} placeholders.",
+      "version": "1.0.0",
+      "strict": true
+    }
+  ]
+}
