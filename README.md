@@ -1,84 +1,90 @@
 # prompt-template
 
-A Claude Code plugin for managing reusable parameterized prompt templates.
+一个 Claude Code 插件，用于管理可复用的参数化提示词模板。
 
-Like shell `history` but smarter — templates are parameterized with `{{param}}` placeholders, categorized, and reusable across sessions.
+类似 shell 的 `history` 命令，但更智能——模板支持 `{{param}}` 参数占位符，可分类管理，跨会话复用。避免重复输入冗长的提示词，也避免因输入不规范导致处理质量下降。
 
-## Installation
+## 安装
 
 ```bash
-claude plugin add <repo-url>
+claude plugin add Kaben123/prompt-template
 ```
 
-## Usage
+## 命令一览
 
-| Command | Description |
-|---------|-------------|
-| `/pt add` | Add a new prompt template (interactive or one-shot) |
-| `/pt list [category]` | List templates grouped by category |
-| `/pt use <name> [--param=value]` | Render and execute a template |
-| `/pt show <name>` | Display template content without executing |
-| `/pt edit <name>` | Modify an existing template |
-| `/pt delete <name>` | Delete a template |
+| 命令 | 说明 |
+|------|------|
+| `/pt add` | 添加新的提示词模板（支持交互式或一次性传入） |
+| `/pt list [category]` | 按分类列出所有模板 |
+| `/pt use <name> [--param=value]` | 渲染并执行指定模板 |
+| `/pt show <name>` | 查看模板内容（不执行） |
+| `/pt edit <name>` | 修改已有模板 |
+| `/pt delete <name>` | 删除模板 |
 
-## Template Format
+## 模板格式
 
-Templates are stored as Markdown files in `~/.claude/prompt-templates/`:
+模板以 Markdown 文件形式存储在 `~/.claude/prompt-templates/` 目录下：
 
 ```markdown
 ---
 name: fix-bug
 category: debug
-description: Analyze and fix a JIRA bug
+description: 分析并修复指定 JIRA Bug
 params:
   - name: jira_id
-    description: JIRA ticket ID
-    example: PROJ-12345
+    description: JIRA 工单号
+    example: VELAPLATFO-12345
   - name: file_path
-    description: Target file path
-    example: src/main.c
+    description: 问题所在文件路径
+    example: drivers/sensor/sensor_hub.c
 ---
 
-Analyze JIRA {{jira_id}} bug, focus on {{file_path}}.
+分析 JIRA {{jira_id}} 描述的 Bug，重点关注 {{file_path}} 文件。
 
-Steps:
-1. Read JIRA description
-2. Read source code, locate root cause
-3. Propose and implement fix
-4. Verify no regressions
+请按以下步骤处理：
+1. 阅读 JIRA 描述，理解问题现象
+2. 阅读相关源码，定位根因
+3. 提出修复方案并实现
+4. 验证修复是否引入回归
 ```
 
-## Examples
+## 使用示例
 
-### Add a template interactively
+### 交互式添加模板
 
 ```
 /pt add
 ```
 
-Claude will ask for name, category, description, body, and param details one by one.
+Claude 会逐步询问模板名称、分类、描述、内容和参数说明。
 
-### Add a template in one shot
-
-```
-/pt add --name=code-review --category=review --body="Review the Gerrit patch at {{gerrit_url}}, focus on {{aspect}}"
-```
-
-### Use a template
+### 一次性添加模板
 
 ```
-/pt use fix-bug --jira_id=PROJ-67890 --file_path=drivers/i2c.c
+/pt add --name=code-review --category=review --body="Review Gerrit patch {{gerrit_url}}，重点关注 {{aspect}}"
 ```
 
-Or just `/pt use fix-bug` and Claude will ask for each parameter interactively.
+### 使用模板（带参数）
 
-## Design
+```
+/pt use fix-bug --jira_id=VELAPLATFO-67890 --file_path=drivers/i2c.c
+```
 
-- **Zero dependencies** — pure skill (Markdown instructions), no scripts or binaries
-- **Global personal scope** — templates available across all projects
-- **Hybrid input** — supports both one-shot CLI args and interactive prompting
-- **Direct execution** — rendered template is executed immediately as Claude instruction
+### 使用模板（交互式填参数）
 
-## License
+```
+/pt use fix-bug
+```
+
+Claude 会逐个询问缺失的参数，并显示描述和示例作为提示。
+
+## 设计理念
+
+- **零依赖** — 纯 Skill（Markdown 指令），无需安装脚本或二进制文件
+- **个人全局** — 模板跨所有项目可用
+- **混合输入** — 支持一次性命令行传参和交互式逐步询问
+- **直接执行** — 渲染后的模板直接作为 Claude 指令执行
+
+## 许可证
 
 MIT
