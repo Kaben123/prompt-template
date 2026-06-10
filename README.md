@@ -8,7 +8,7 @@
 
 ```bash
 # 1. 添加 marketplace
-claude plugin marketplace add prompt-template-marketplace --source github --repo Kaben123/prompt-template
+claude plugin marketplace add Kaben123/prompt-template
 
 # 2. 安装插件
 claude plugin install prompt-template@prompt-template-marketplace
